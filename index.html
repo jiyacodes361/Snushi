@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Beautiful Moments</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base Reset & Theme Variables */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        :root {
+            --primary-pink: #ffb3c6;
+            --deep-red: #d90429;
+            --text-dark: #2b2b2b;
+            --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            padding-bottom: 50px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* --- Floating Background Hearts Animation --- */
+        .heart-bg {
+            position: fixed;
+            top: -10vh;
+            font-size: 1.5rem;
+            color: rgba(255, 179, 198, 0.6);
+            animation: fall linear infinite;
+            z-index: -1;
+            user-select: none;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Header Styling */
+        header { 
+            text-align: center; 
+            padding: 4rem 1rem 3rem; 
+            position: relative;
+        }
+        header h1 { 
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem; 
+            color: var(--deep-red);
+            text-shadow: 2px 2px 4px rgba(255, 179, 198, 0.8);
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.2rem;
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive Gallery Grid */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            padding: 0 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Individual Image/Video Styling */
+        .gallery-item {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 4px solid white;
+            box-shadow: 0 8px 15px rgba(255, 179, 198, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; 
+            background-color: #ffe6ea; 
+        }
+        
+        /* Romantic Hover Effect */
+        .gallery-item:hover { 
+            transform: translateY(-10px) scale(1.03); 
+            box-shadow: 0 15px 25px rgba(217, 4, 41, 0.3);
+            border-color: var(--primary-pink);
+        }
+
+        /* Pop-up (Lightbox) Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(25, 0, 10, 0.9); /* Dark romantic tint */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show { display: flex; }
+
+        .modal-media {
+            max-width: 90%;
+            max-height: 75vh; 
+            border-radius: 12px;
+            border: 3px solid var(--primary-pink);
+            box-shadow: 0 10px 30px rgba(255, 179, 198, 0.5);
+            animation: heartBeatZoom 0.4s ease-out forwards; 
+            display: none; 
+        }
+
+        /* Information Tag */
+        .image-info {
+            color: #fff;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: 300;
+            background: rgba(217, 4, 41, 0.2);
+            border: 1px solid rgba(255, 179, 198, 0.3);
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-align: center;
+            animation: fadeIn 0.5s ease 0.3s both;
+        }
+        .image-info strong { color: var(--primary-pink); font-weight: 600; }
+
+        /* Animations */
+        @keyframes heartBeatZoom {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 40px;
+            color: var(--primary-pink);
+            font-size: 45px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .close-btn:hover { 
+            color: white; 
+            transform: rotate(90deg);
+        }
+
+        /* Text Styling */
+        .txt { 
+            text-align: center; 
+            padding: 4rem 1rem 3rem; 
+            position: relative;
+        }
+        .txt h1 { 
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem; 
+            color: var(--deep-red);
+            text-shadow: 2px 2px 4px rgba(255, 179, 198, 0.8);
+            margin-bottom: 10px;
+        }
+        .txt p {
+            font-size: 1.2rem;
+            color: #555;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        for(let i=0; i<15; i++) {
+            let heart = document.createElement('div');
+            heart.innerHTML = '❤';
+            heart.className = 'heart-bg';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+            document.body.appendChild(heart);
+        }
+    </script>
+
+    <header>
+        <h1>Our Beautiful Moments</h1>
+        <p>Every picture tells a story of love. Click to remember.</p>
+    </header>
+
+    <main>
+        <div class="gallery-container" id="gallery"></div>
+    </main>
+
+    <div id="mediaModal" class="modal">
+        <span class="close-btn">&times;</span>
+        
+        <img class="modal-media" id="expandedImg" src="" alt="Expanded Memory">
+        <video class="modal-media" id="expandedVideo" controls></video>
+        
+        <div class="image-info" id="mediaInfoText"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const galleryContainer = document.getElementById('gallery');
+            const modal = document.getElementById('mediaModal');
+            const expandedImg = document.getElementById('expandedImg');
+            const expandedVideo = document.getElementById('expandedVideo');
+            const mediaInfoText = document.getElementById('mediaInfoText');
+            const closeBtn = document.querySelector('.close-btn');
+            
+            const folderName = "images/"; 
+
+            // Added .mov to the video list
+            const videoExtensions = ['mp4', 'webm', 'ogg', 'mov'];
+
+            // EXACT file list extracted from your screenshot
+            const myFiles = [
+                '1.mp4', '2.jpeg', '3.jpeg', '4.jpeg', '6.jpeg', '7.jpeg', 
+                '8.jpeg', '9.jpeg', '10.jpeg', '11.jpeg','12.jpeg'
+            ];
+
+            myFiles.forEach(fileName => {
+                const fileUrl = folderName + fileName;
+                const extension = fileName.split('.').pop().toLowerCase();
+                const isVideo = videoExtensions.includes(extension);
+
+                let mediaElement;
+                if (isVideo) {
+                    mediaElement = document.createElement('video');
+                    mediaElement.src = fileUrl;
+                    mediaElement.muted = true;
+                    mediaElement.preload = "metadata";
+                } else {
+                    mediaElement = document.createElement('img');
+                    mediaElement.src = fileUrl;
+                    mediaElement.loading = "lazy";
+                }
+
+                mediaElement.className = 'gallery-item';
+
+                // Click event for the pop-up
+                mediaElement.addEventListener('click', function() {
+                    if (isVideo) {
+                        expandedImg.style.display = 'none';
+                        expandedVideo.style.display = 'block';
+                        expandedVideo.src = fileUrl;
+                        expandedVideo.play();
+                    } else {
+                        expandedVideo.style.display = 'none';
+                        expandedImg.style.display = 'block';
+                        expandedImg.src = fileUrl;
+                        expandedVideo.pause(); 
+                        expandedVideo.currentTime = 0;
+                    }
+                    
+                    <!-- mediaInfoText.innerHTML = `Folder: <strong>${folderName}</strong> &nbsp;|&nbsp; Memory: <strong>${fileName}</strong>`; -->
+                    modal.classList.add('show'); 
+                });
+
+                galleryContainer.appendChild(mediaElement);
+            });
+
+            function closeModal() {
+                modal.classList.remove('show');
+                expandedVideo.pause();
+                expandedVideo.currentTime = 0;
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+
+    <div class="txt">
+        <p>No matter where life takes you, or how many miles come between us, one thing will never change — I will always choose you. Today, tomorrow, and every day after that. Distance may separate our hands, but it can never separate what I feel for you.
+
+You are not just someone I love… you are a part of me. Being with you changed me in ways I never expected. The moments we shared — the rides, the laughter, the little fights, the way you cared for me, the way you made ordinary days feel special — they all live inside my heart now.
+
+I know you’re going far away, and it hurts more than words can explain. But love like ours doesn’t end because of distance. It grows stronger. Every call, every memory, every “I miss you” will only remind me how lucky I am to have you.
+
+You became my comfort, my safe place, my home. And even when you’re in another country, you’ll still be home to me. I’ll wait for your messages, your voice, your smile through a screen — because loving you is easy, no matter how far you are.
+
+I don’t know what the future looks like, but I know this: I’ll be here. Supporting you, loving you, missing you, praying for you, and standing beside you in every possible way. Distance is only a test, and I believe what we have is strong enough to survive anything.
+
+You were my first love, my deepest feeling, and a piece of my soul that I can never replace. Wherever you go, carry this with you — you are loved endlessly, deeply, and forever.
+
+No matter how far you are, I am always with you. 🤍
+</p>
+    </div>
+
+</body>
+</html>
